@@ -54,4 +54,26 @@ const updateUser = (req, res) => {
   });
 };
 
-module.exports = { register, getUsers, getSingleId, deleteUser, updateUser };
+const login = (req, res) => {
+  const q = "SELECT * FROM users WHERE `email` = ?";
+
+  db.query(q, [req.body.email], (err, data) => {
+    if (err) return res.status(404).json("User exists!");
+
+    if (data.length === 0) return res.status(404).json("User not found!");
+
+    const isPasswordCorrect = req.body.password === data[0].password;
+
+    if (!isPasswordCorrect) return res.status(400).json("Wrong credentials");
+    res.status(200).json("Login!");
+  });
+};
+
+module.exports = {
+  register,
+  getUsers,
+  getSingleId,
+  deleteUser,
+  updateUser,
+  login,
+};

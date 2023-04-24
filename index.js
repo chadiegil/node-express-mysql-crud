@@ -3,6 +3,7 @@ const dotenv = require("dotenv");
 const authRoutes = require("./routes/auth.js");
 const app = express();
 
+dotenv.config();
 const PORT = process.env.PORT || 3001;
 
 app.use(express.json());
